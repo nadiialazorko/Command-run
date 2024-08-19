@@ -3,7 +3,7 @@ on:
   repository_dispatch:
     types: [e2e-test-command]
 jobs:
-  helloWorld:
+  tests:
     runs-on: ubuntu-latest
     steps:
       - name: Add reaction

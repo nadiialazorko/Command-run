@@ -1,7 +1,7 @@
 name: Slash Command Dispatch
 on:
   issue_comment:
-    types: [e2e-test-command]
+    types: [created]
 jobs:
   slashCommandDispatch:
     runs-on: ubuntu-latest
