@@ -11,6 +11,7 @@ jobs:
         with:
           comment-id: ${{ github.event.client_payload.github.payload.comment.id }}
           reactions: hooray
+          token: ${{ secrets.PAT }}
 
       - name: Running tests
         run: echo 'Running e2e tests...'
