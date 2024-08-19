@@ -10,6 +10,5 @@ jobs:
         uses: peter-evans/slash-command-dispatch@v1
         with:
           token: ${{ secrets.PAT }}
-          reactions: false
           issue-type: pull-request
           commands: e2e-test
