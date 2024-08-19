@@ -12,3 +12,4 @@ jobs:
           token: ${{ secrets.PAT }}
           issue-type: pull-request
           commands: e2e-test
+          reaction-token: ${{ secrets.PAT }}
