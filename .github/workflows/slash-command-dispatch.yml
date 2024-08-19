@@ -3,15 +3,12 @@ on:
   issue_comment:
     types: [created]
 jobs:
-  slashCommandDispatch:
+  dispatch:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Slash Command Dispatch
-        uses: ./e2e-test-command.yml
+      - name: Dispatch slash command
+        uses: peter-evans/slash-command-dispatch@v1
         with:
           token: ${{ secrets.PAT }}
-          commands: |
-            e2e-test
-          permission: none
           issue-type: pull-request
+          commands: e2e-test

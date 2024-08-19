@@ -1,5 +1,7 @@
 name: E2e Test Command
 on:
+  repository_dispatch:
+    types: [e2e-test-command]
 jobs:
   tests:
     runs-on: ubuntu-latest
