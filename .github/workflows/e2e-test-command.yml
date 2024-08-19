@@ -1,7 +1,5 @@
 name: E2e Test Command
 on:
-  repository_dispatch:
-    types: [e2e-test-command]
 jobs:
   tests:
     runs-on: ubuntu-latest
@@ -12,5 +10,5 @@ jobs:
           comment-id: ${{ github.event.client_payload.github.payload.comment.id }}
           reactions: hooray
 
-      - name: Create URL to the run output
+      - name: Running tests
         run: echo 'Running e2e tests...'
