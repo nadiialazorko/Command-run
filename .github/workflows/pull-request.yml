@@ -12,6 +12,7 @@ permissions:
 
 jobs:
   Chekout:
+    runs-on: ubuntu-latest
     steps:
       - name: Get PR url
         id: request
