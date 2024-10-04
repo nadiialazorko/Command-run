@@ -14,20 +14,9 @@ jobs:
   Chekout:
     runs-on: ubuntu-latest
     steps:
-      - name: Get PR url
-        id: request
-        uses: octokit/request-action@v2.0.0
+      - uses: actions/checkout@v4
         with:
-          route: ${{ github.event.issue.pull_request.url }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
-
-      - name: Checkout PR Branch
-        uses: actions/checkout@v2
-        with:
-          token: ${{ secrets.PAT }}
-          repository: ${{ fromJson(steps.request.outputs.data).head.repo.full_name }}
-          ref: ${{ steps.pr_data.outputs.branch }}
+          fetch-depth: 0
 
   Set-Status:
     if: github.event.issue.pull_request && github.event.comment.body == '/e2e-tests'
@@ -42,7 +31,7 @@ jobs:
         uses: myrotvorets/set-commit-status-action@master
         with:
           sha: ${{ steps.comment-branch.outputs.head_sha }}
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT }}
           status: pending
 
   Tests:
@@ -83,5 +72,5 @@ jobs:
         if: always()
         with:
           sha: ${{ steps.comment-branch.outputs.head_sha }}
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT }}
           status: ${{ needs.Tests.result }}
