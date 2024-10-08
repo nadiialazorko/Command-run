@@ -16,10 +16,6 @@ jobs:
     needs: [Checkout]
     if: github.event.issue.pull_request && github.event.comment.body == '/e2e-tests'
     runs-on: ubuntu-latest
-    steps:
-      - name: Get PR branch
-        uses: xt0rted/pull-request-comment-branch@v2
-        id: comment-branch
 
   Tests:
     if: github.event.issue.pull_request && github.event.comment.body == '/e2e-tests'
