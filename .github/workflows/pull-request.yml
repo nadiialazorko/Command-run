@@ -12,9 +12,10 @@ permissions:
 
 jobs:
   Checkout:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
   Set-Status:
     needs: [Checkout]
