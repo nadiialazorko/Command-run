@@ -11,12 +11,6 @@ permissions:
   statuses: write
 
 jobs:
-  Checkout:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ steps.comment-branch.outputs.head_ref }}
 
   Set-Status:
     needs: [Checkout]
@@ -32,7 +26,12 @@ jobs:
     needs: [Set-Status]
     runs-on: ubuntu-latest
     steps:
-      - run: 'echo "Running e2e tests..."'
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.comment-branch.outputs.head_ref }}
+      - name: Run 
+        - run: 'echo "Running e2e tests..."'
 
   Test-result:
     name: E2E result
