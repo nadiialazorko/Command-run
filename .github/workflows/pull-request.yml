@@ -11,16 +11,7 @@ permissions:
   statuses: write
 
 jobs:
-  Checkout:
-    if: github.event.issue.pull_request
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
   Set-Status:
-    needs: [Checkout]
     if: github.event.issue.pull_request && github.event.comment.body == '/e2e-tests'
     runs-on: ubuntu-latest
     steps:
@@ -33,7 +24,7 @@ jobs:
     if: github.event.issue.pull_request && github.event.comment.body == '/e2e-tests'
     runs-on: ubuntu-latest
     steps:
-      - run: 'echo "Running e2e tests..."'
+      - run: echo
 
   Test-result:
     name: E2E result
