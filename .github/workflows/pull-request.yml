@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          ref: ${{ steps.comment-branch.outputs.head_ref }}
 
   Set-Status:
     needs: [Checkout]
