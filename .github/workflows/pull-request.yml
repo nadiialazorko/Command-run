@@ -11,7 +11,13 @@ permissions:
   statuses: write
 
 jobs:
+  Checkout:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
   Set-Status:
+    needs: [Checkout]
     if: github.event.issue.pull_request && github.event.comment.body == '/e2e-tests'
     runs-on: ubuntu-latest
     steps:
@@ -25,39 +31,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: 'echo "Running e2e tests..."'
-
-      - name: Staging Tests ✅
-        if: ${{ success() }}
-        # set the merge commit status check
-        # using GitHub REST API
-        # see https://docs.github.com/en/rest/reference/repos#create-a-commit-status
-        run: |
-          curl --request POST \
-          --url https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }} \
-          --header 'authorization: Bearer ${{ secrets.PAT }}' \
-          --header 'content-type: application/json' \
-          --data '{
-            "context": "Staging Tests",
-            "state": "success",
-            "description": "Staging tests passed",
-            "target_url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          }'
-      - name: Staging Tests 🚨
-        if: ${{ failure() }}
-        # set the merge commit status check
-        # using GitHub REST API
-        # see https://docs.github.com/en/rest/reference/repos#create-a-commit-status
-        run: |
-          curl --request POST \
-          --url https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }} \
-          --header 'authorization: Bearer ${{ secrets.PAT }}' \
-          --header 'content-type: application/json' \
-          --data '{
-            "context": "Staging Tests",
-            "state": "failure",
-            "description": "Staging tests failed",
-            "target_url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          }'
 
   Test-result:
     name: E2E result
