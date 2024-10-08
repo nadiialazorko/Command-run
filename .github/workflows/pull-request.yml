@@ -3,6 +3,7 @@ name: E2E Tests
 on:
   issue_comment:
     types: [created]
+    if: github.event.issue.pull_request && github.event.comment.body == '/e2e-tests'
 
 permissions:
   pull-requests: write
@@ -12,7 +13,6 @@ permissions:
 
 jobs:
   Set-Status:
-    if: github.event.issue.pull_request && github.event.comment.body == '/e2e-tests'
     runs-on: ubuntu-latest
     steps:
       - name: Get PR branch
@@ -21,15 +21,14 @@ jobs:
 
   Tests:
     needs: [Set-Status]
-    if: github.event.issue.pull_request && github.event.comment.body == '/e2e-tests'
     runs-on: ubuntu-latest
     steps:
-      - run: echo
+      - 
 
   Test-result:
     name: E2E result
     needs: [Tests]
-    if: github.event.issue.pull_request && github.event.comment.body == '/e2e-tests'
+    if: always()
     runs-on: ubuntu-latest
     steps:
       - name: Add comment to PR
