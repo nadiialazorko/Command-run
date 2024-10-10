@@ -1,10 +1,6 @@
 name: E2E Tests
 
 on:
-  workflow_run:
-    workflows: ["Portal Pull Request Workflow"]
-    types:
-      - completed
   issue_comment:
     types: [created]
 
@@ -16,6 +12,9 @@ permissions:
 
 jobs:
   Tests:
+    build:
+      uses: ./.github/workflows/pull-request.yml
+    needs: [build]
     if: github.event.issue.pull_request && github.event.comment.body == '/e2e-tests'
     runs-on: ubuntu-latest
     steps:
