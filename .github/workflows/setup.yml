@@ -1,0 +1,20 @@
+name: Setup
+
+on:
+  workflow_call:
+
+jobs:
+  Setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Setup"
+        run: echo "Set and Build"
+
+      - name: Archive artifacts
+        run: zip -r build.zip . -i build/
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: build.zip
