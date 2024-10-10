@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   Build:
-      uses: ./.github/workflows/pull-request.yml
+    uses: ./.github/workflows/setup.yml
   Tests:
     needs: [Build]
     if: github.event.issue.pull_request && github.event.comment.body == '/e2e-tests'
