@@ -1,6 +1,5 @@
 name: Portal Pull Request Workflow
 on:
-  [workflow_call]
   pull_request:
 
 jobs:
