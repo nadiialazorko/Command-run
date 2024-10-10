@@ -11,10 +11,10 @@ permissions:
   statuses: write
 
 jobs:
-  Tests:
-    build:
+  Build:
       uses: ./.github/workflows/pull-request.yml
-    needs: [build]
+  Tests:
+    needs: [Build]
     if: github.event.issue.pull_request && github.event.comment.body == '/e2e-tests'
     runs-on: ubuntu-latest
     steps:
