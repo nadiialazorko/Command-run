@@ -5,14 +5,15 @@ on:
 jobs:
   Checkout:
     runs-on: ubuntu-latest
-    - name: Get PR branch
-      uses: xt0rted/pull-request-comment-branch@v2
-      id: comment-branch
+    steps:
+      - name: Get PR branch
+        uses: xt0rted/pull-request-comment-branch@v2
+        id: comment-branch
 
-    - name: Checkout PR branch
-      uses: actions/checkout@v4
-      with:
-        ref: ${{ steps.comment-branch.outputs.head_ref }}
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.comment-branch.outputs.head_ref }}
 
   Lint:
     runs-on: ubuntu-latest
