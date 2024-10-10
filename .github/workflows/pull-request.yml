@@ -1,51 +1,15 @@
-name: E2E Tests
-
+name: Portal Pull Request Workflow
 on:
-  issue_comment:
-    types: [created]
-
-permissions:
-  pull-requests: write
-  contents: read
-  issues: write
-  statuses: write
+  [workflow_call]
+  pull_request:
 
 jobs:
-  Tests:
-    if: github.event.issue.pull_request && github.event.comment.body == '/e2e-tests'
+  Lint:
     runs-on: ubuntu-latest
     steps:
-      - name: Get PR branch
-        uses: xt0rted/pull-request-comment-branch@v2
-        id: comment-branch
-        
-      - name: Checkout PR branch
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ steps.comment-branch.outputs.head_ref }}
+      run: echo "Lint checking here"
 
-  Test-result:
-    name: E2E result
-    needs: [Tests]
-    if: always() && github.event.comment.body == '/e2e-tests'
+  Setup:
     runs-on: ubuntu-latest
     steps:
-      - name: Add comment to PR
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const name = '${{ github.workflow   }}';
-            const url = '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}';
-            const success = '${{ needs.Tests.result }}' === 'success';
-            const body = `${name}: ${success ? 'succeeded ✅' : 'failed ❌'}\n${url}`;
-
-            await github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: body
-            })
-
-      - name: Get PR branch
-        uses: xt0rted/pull-request-comment-branch@v2
-        id: comment-branch
+      run: echo "Set and Build"
