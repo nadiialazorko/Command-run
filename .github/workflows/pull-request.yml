@@ -1,15 +1,37 @@
 name: Portal Pull Request Workflow
 on:
-  [workflow_call]
   pull_request:
 
 jobs:
+  Checkout:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get PR branch
+        uses: xt0rted/pull-request-comment-branch@v2
+        id: comment-branch
+
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.comment-branch.outputs.head_ref }}
+
   Lint:
     runs-on: ubuntu-latest
     steps:
-      run: echo "Lint checking here"
+      - name: "Lint"
+        run: echo "Lint checking here"
 
   Setup:
     runs-on: ubuntu-latest
     steps:
-      run: echo "Set and Build"
+      - name: "Setup"
+        run: echo "Set and Build"
+
+      - name: Archive artifacts
+        run: zip -r build.zip build/
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: build.zip
