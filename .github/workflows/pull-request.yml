@@ -14,3 +14,12 @@ jobs:
     steps:
       - name: "Setup"
         run: echo "Set and Build"
+
+      - name: Archive artifacts
+        run: zip -r build.zip build/
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: build.zip
