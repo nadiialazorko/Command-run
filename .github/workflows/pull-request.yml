@@ -6,9 +6,11 @@ jobs:
   Lint:
     runs-on: ubuntu-latest
     steps:
-      run: echo "Lint checking here"
+      - name: "Lint"
+        run: echo "Lint checking here"
 
   Setup:
     runs-on: ubuntu-latest
     steps:
-      run: echo "Set and Build"
+      - name: "Setup"
+        run: echo "Set and Build"
