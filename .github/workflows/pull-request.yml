@@ -32,7 +32,7 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Set latest commit status as expected
+      - name: Set tests check as expected
         uses: actions/github-script@v6
         with:
           script: |
@@ -41,9 +41,9 @@ jobs:
             await github.rest.repos.createCommitStatus({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              # sha: ${{ github.sha }},
+              sha: '${{ github.sha }}',
               state: 'pending',
               context: 'E2E Tests',
-              description: `Status updated based on comment: ${context.payload.comment.body}`,
+              description: 'Status updated based on PR created',
               target_url: target_url
             });
