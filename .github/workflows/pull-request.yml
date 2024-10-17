@@ -9,8 +9,6 @@ jobs:
       - name: Get PR branch
         uses: xt0rted/pull-request-comment-branch@v2
         id: comment-branch
-        with:
-          repo_token: ${{ secrets.PATG }}
 
       - name: Checkout PR branch
         uses: actions/checkout@v4
