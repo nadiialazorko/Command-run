@@ -13,6 +13,7 @@ permissions:
 jobs:
   Build:
     uses: ./.github/workflows/setup.yml
+
   Tests:
     needs: [Build]
     if: github.event.issue.pull_request && github.event.comment.body == '/e2e-tests'
@@ -94,3 +95,11 @@ jobs:
               description: `Status updated based on comment: ${context.payload.comment.body}`,
               target_url: target_url
             });
+
+      - name: Create a check status
+        run: |
+          curl -X POST \
+          -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          https://api.github.com/repos/${{ context.repo.owner }}/${{ context.repo.repo }}/check-runs \
+          -d '{"name":"E2E Tests","head_sha":"$GITHUB_SHA","status":"completed","conclusion":"${{ needs.Tests.result }}"}'
