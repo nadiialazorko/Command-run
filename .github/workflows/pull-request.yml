@@ -27,10 +27,14 @@ jobs:
   Tests-Check:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository code
+      - name: Get PR branch
+        uses: xt0rted/pull-request-comment-branch@v2
+        id: comment-branch
+
+      - name: Checkout PR branch
         uses: actions/checkout@v4
         with:
-          fetch-depth: 1
+          ref: ${{ steps.comment-branch.outputs.head_ref }}
 
       - name: Set latest commit status as expected
         uses: actions/github-script@v6
@@ -41,8 +45,8 @@ jobs:
             await github.rest.repos.createCommitStatus({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              sha: ${{ github.sha }},
-              state: 'pending',
+              sha: steps.comment-branch.outputs.head_sha,
+              state: 'expected',
               context: 'E2E Tests',
               description: `Status updated based on comment: ${context.payload.comment.body}`,
               target_url: target_url
