@@ -106,24 +106,15 @@ jobs:
 
       - name: Get PR details and create check run
         run: |
-          # Fetch the SHA of the PR commit
-          PR_SHA=$(curl -s \
-            -H "Authorization: Bearer ${{ secrets.PAT }}" \
-            -H "Accept: application/vnd.github.v3+json" \
-            "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}" \
-            | jq -r '.head.sha')
-
-          echo "PR SHA: $PR_SHA"
-
           curl -X POST \
-            -H "Authorization: Bearer ${{ secrets.PAT }}" \
+            -H "Authorization: Bearer ${{ secrets.PATG }}" \
             -H "Accept: application/vnd.github.v3+json" \
             "https://api.github.com/repos/${{ github.repository }}/check-runs" \
             -d '{
               "name": "E2E Tests",
-              "head_sha": "'"$PR_SHA"'",
+              "head_sha": "${{ github.sha }}",
               "status": "completed",
               "conclusion": "${{ needs.Tests.result }}"
             }'
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
+          GITHUB_TOKEN: ${{ secrets.PATG }}
