@@ -41,7 +41,7 @@ jobs:
             await github.rest.repos.createCommitStatus({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              # sha: ${{ github.sha }},
+              sha: ${{ github.sha }},
               state: 'pending',
               context: 'E2E Tests',
               description: `Status updated based on comment: ${context.payload.comment.body}`,
