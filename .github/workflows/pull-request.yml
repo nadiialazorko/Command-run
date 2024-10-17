@@ -47,5 +47,3 @@ jobs:
               description: `Status updated based on comment: ${context.payload.comment.body}`,
               target_url: target_url
             });
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
