@@ -89,7 +89,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               sha: sha,
-              state: `${needs.Tests.result}`,
+              state: '${{ needs.Tests.result }}',
               context: 'E2E Tests',
               description: `Status updated based on comment: ${context.payload.comment.body}`,
               target_url: target_url
