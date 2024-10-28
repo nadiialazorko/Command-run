@@ -14,8 +14,19 @@ jobs:
   Build:
     uses: ./.github/workflows/setup.yml
 
-  Tests:
+  SSL:
     needs: [Build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate certificates for next step
+        uses: kofemann/action-create-certificate@v0.0.4
+        with:
+          hostcert: "self-signed.crt"
+          hostkey: "self-signed.key"
+          cachain: "ca-chain.pem"
+
+  Tests:
+    needs: [SSL]
     if: github.event.issue.pull_request && github.event.comment.body == '/e2e-tests'
     runs-on: ubuntu-latest
     steps:
