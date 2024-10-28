@@ -23,27 +23,3 @@ jobs:
 
   Setup:
     uses: ./.github/workflows/setup.yml
-
-  Tests-Check:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out repository code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
-
-      - name: Set latest commit status as expected
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const target_url = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
-
-            await github.rest.repos.createCommitStatus({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              # sha: ${{ github.sha }},
-              state: 'pending',
-              context: 'E2E Tests',
-              description: `Status updated based on comment: ${context.payload.comment.body}`,
-              target_url: target_url
-            });
