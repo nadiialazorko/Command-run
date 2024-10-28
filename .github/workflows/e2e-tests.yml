@@ -24,9 +24,14 @@ jobs:
           hostcert: "self-signed.crt"
           hostkey: "self-signed.key"
           cachain: "ca-chain.pem"
+    
+      - shell: bash
+        run: |
+          mkdir .dev
+          mv /opt/acc/out/* .dev/
 
       - name: Archive artifacts
-        run: zip -r ssl.zip ./* -r
+        run: zip -r ssl.zip .dev/
 
   Tests:
     needs: [SSL]
