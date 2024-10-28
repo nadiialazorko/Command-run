@@ -26,7 +26,7 @@ jobs:
           cachain: "ca-chain.pem"
 
       - name: Archive artifacts
-        run: zip -r ssl.zip . .dev/
+        run: zip -r ssl.zip ./* -r
 
   Tests:
     needs: [SSL]
