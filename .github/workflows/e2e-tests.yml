@@ -21,9 +21,12 @@ jobs:
       - name: Generate certificates for next step
         uses: kofemann/action-create-certificate@v0.0.4
         with:
-          hostcert: "self-signed.crt"
-          hostkey: "self-signed.key"
-          cachain: "ca-chain.pem"
+          hostcert: ".dev/self-signed.crt"
+          hostkey: ".dev/self-signed.key"
+          cachain: ".dev/ca-chain.pem"
+
+      - name: Archive artifacts
+        run: zip -r ssl.zip . .dev/
 
   Tests:
     needs: [SSL]
