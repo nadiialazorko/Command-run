@@ -40,7 +40,7 @@ jobs:
             mkdir -p ${{ github.workspace }}/.dev
 
       - name: Generate certificates for next step
-        run: npm run setup-local-ssl
+        run: cd ${{ github.workspace }} && npm run setup-local-ssl
 
   Tests:
     needs: [SSL]
