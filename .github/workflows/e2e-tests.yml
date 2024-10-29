@@ -18,17 +18,16 @@ jobs:
     needs: [Build]
     runs-on: ubuntu-latest
     steps:
+      - name: Create directory for certificates
+        run: |
+            mkdir -p .dev
+
       - name: Generate certificates for next step
         uses: kofemann/action-create-certificate@v0.0.4
         with:
-          hostcert: "self-signed.crt"
-          hostkey: "self-signed.key"
-          cachain: "ca-chain.pem"
-    
-      - shell: bash
-        run: |
-          mkdir .dev
-          mv /opt/acc/out/* .dev/
+          hostcert: ".dev/self-signed.crt"
+          hostkey: ".dev/self-signed.key"
+          cachain: ".dev/ca-chain.pem"
 
       - name: Archive artifacts
         run: zip -r ssl.zip .dev/
