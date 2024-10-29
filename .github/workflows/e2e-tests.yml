@@ -56,6 +56,14 @@ jobs:
         with:
           ref: ${{ steps.comment-branch.outputs.head_ref }}
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+  
+      - name: Install dependencies
+        run: npm ci
+
       - name: Set latest commit status as pending
         uses: actions/github-script@v6
         with:
