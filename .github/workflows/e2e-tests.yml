@@ -37,7 +37,7 @@ jobs:
 
       - name: Create directory for certificates
         run: |
-            mkdir -p .dev
+            mkdir -p ${{ github.workspace }}/.dev
 
       - name: Generate certificates for next step
         run: npm run setup-local-ssl
