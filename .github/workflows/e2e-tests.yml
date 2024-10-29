@@ -23,14 +23,7 @@ jobs:
             mkdir -p .dev
 
       - name: Generate certificates for next step
-        uses: kofemann/action-create-certificate@v0.0.4
-        with:
-          hostcert: ".dev/self-signed.crt"
-          hostkey: ".dev/self-signed.key"
-          cachain: ".dev/ca-chain.pem"
-
-      - name: Archive artifacts
-        run: zip -r ssl.zip .dev/
+        run: npm run setup-local-ssl
 
   Tests:
     needs: [SSL]
@@ -75,6 +68,9 @@ jobs:
           github_token: ${{ secrets.PAT }}
           pr: ${{ github.event.pull_request.number || github.event.issue.number }}
           workflow: pull-request.yml
+      
+      - name: Run e2e tests
+        run: npm run test
 
   Test-result:
     name: E2E result
