@@ -14,36 +14,6 @@ jobs:
   Build:
     uses: ./.github/workflows/setup.yml
 
-  SSL:
-    needs: [Build]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Get PR branch
-        uses: xt0rted/pull-request-comment-branch@v2
-        id: comment-branch
-        
-      - name: Checkout PR branch
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ steps.comment-branch.outputs.head_ref }}
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-  
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Extract SSL certificates
-        run: |
-            mkdir -p ${{ github.workspace }}/.dev
-            cd ${{ github.workspace }}/.dev
-            touch self-signed.key
-            printf "${{ secrets.SSL_KEY }}" > self-signed.key
-            touch self-signed.crt
-            printf "${{ secrets.SSL_CRT }}" > self-signed.crt
-
   Tests:
     needs: [SSL]
     if: github.event.issue.pull_request && github.event.comment.body == '/e2e-tests'
@@ -95,6 +65,15 @@ jobs:
           github_token: ${{ secrets.PAT }}
           pr: ${{ github.event.pull_request.number || github.event.issue.number }}
           workflow: pull-request.yml
+
+      - name: Extract SSL certificates
+        run: |
+            mkdir -p ${{ github.workspace }}/.dev
+            cd ${{ github.workspace }}/.dev
+            touch self-signed.key
+            printf "${{ secrets.SSL_KEY }}" > self-signed.key
+            touch self-signed.crt
+            printf "${{ secrets.SSL_CRT }}" > self-signed.crt
       
       - name: Run e2e tests
         run: npm run test
