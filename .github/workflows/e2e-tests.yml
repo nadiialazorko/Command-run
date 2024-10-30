@@ -15,7 +15,7 @@ jobs:
     uses: ./.github/workflows/setup.yml
 
   Tests:
-    needs: [SSL]
+    needs: [Build]
     if: github.event.issue.pull_request && github.event.comment.body == '/e2e-tests'
     runs-on: ubuntu-latest
     steps:
