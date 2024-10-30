@@ -38,10 +38,11 @@ jobs:
       - name: Extract SSL certificates
         run: |
             mkdir -p ${{ github.workspace }}/.dev
+            cd ${{ github.workspace }}/.dev
             touch self-signed.key
-            printf "{{ secrets.SSL_KEY }}" > self-signed.key
+            printf "${{ secrets.SSL_KEY }}" > self-signed.key
             touch self-signed.crt
-            printf "{{ secrets.SSL_CRT }}" > self-signed.crt
+            printf "${{ secrets.SSL_CRT }}" > self-signed.crt
 
   Tests:
     needs: [SSL]
